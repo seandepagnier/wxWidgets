@@ -172,6 +172,10 @@ MyFrame::MyFrame(const wxString& title)
     CreateStatusBar(2);
     SetStatusText("Welcome to wxWidgets!");
 #endif // wxUSE_STATUSBAR
+
+    // Show wxWidgets information:
+    wxInfoMessageBox(this);
+
 }
 
 
