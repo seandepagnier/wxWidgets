@@ -39183,7 +39183,7 @@ sound_sdl_sound_sdl.o: $(srcdir)/src/unix/sound_sdl.cpp
 # Rule for Qt's moc precompiler:
 #
 $(srcdir)/src/qt/%.moc.cpp: $(srcdir)/include/wx/qt/%.h
-	moc $< -o $@
+	/home/reingart/qt/5.2.1/gcc_64/bin/moc $< -o $@
     
 
 
