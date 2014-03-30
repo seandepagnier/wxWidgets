@@ -1647,6 +1647,8 @@ wxString GetDateFormatFromLangInfo(wxLocaleInfo index)
 /* static */
 wxString wxLocale::GetInfo(wxLocaleInfo index, wxLocaleCategory cat)
 {
+// TODO: as of 2014 Android doesn't has complete locale support (use java api)
+#ifndef ANDROID
     lconv * const lc = localeconv();
     if ( !lc )
         return wxString();
@@ -1688,7 +1690,7 @@ wxString wxLocale::GetInfo(wxLocaleInfo index, wxLocaleCategory cat)
         default:
             wxFAIL_MSG( "unknown wxLocaleInfo value" );
     }
-
+#endif // android
     return wxString();
 }
 
