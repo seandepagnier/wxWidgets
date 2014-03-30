@@ -2608,11 +2608,11 @@ bool wxFileName::GetTimes(wxDateTime *dtAccess,
     if ( wxStat( GetFullPath(), &stBuf) == 0 )
     {
         if ( dtAccess )
-            dtAccess->Set(stBuf.st_atime);
+            dtAccess->Set(static_cast<time_t>(stBuf.st_atime));
         if ( dtMod )
-            dtMod->Set(stBuf.st_mtime);
+            dtMod->Set(static_cast<time_t>(stBuf.st_mtime));
         if ( dtCreate )
-            dtCreate->Set(stBuf.st_ctime);
+            dtCreate->Set(static_cast<time_t>(stBuf.st_ctime));
 
         return true;
     }
