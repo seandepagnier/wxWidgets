@@ -626,6 +626,17 @@ WXDLLIMPEXP_BASE wchar_t * wxCRT_GetenvW(const wchar_t *name);
     #endif
 #endif
 
+/* The Android platform, as of 2014, only support most wide-char function with 
+   the exception of multi-byte encoding/decoding functions & wsprintf/wsscanf
+   See android-ndk-r9d/docs/STANDALONE-TOOLCHAIN.html (section 7.2)
+   In fact, mbstowcs/wcstombs are defined and compile, but don't work correctly
+*/
+
+#ifdef ANDROID
+    #define wxNEED_WX_MBSTOWCS
+    #undef HAVE_WCSRTOMBS
+#endif
+
 #ifdef wxNEED_WX_MBSTOWCS
     /* even though they are defined and "implemented", they are bad and just
        stubs so we need our own - we need these even in ANSI builds!! */
