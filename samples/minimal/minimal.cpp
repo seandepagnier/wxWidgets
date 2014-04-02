@@ -4,7 +4,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     04/01/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: minimal.cpp 65971 2010-11-01 12:30:38Z PMO $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@
 // the application icon (under Windows and OS/2 it is in resources and even
 // though we could still include the XPM here it would be unused)
 #if !defined(__WXMSW__) && !defined(__WXPM__)
-    #include "../sample.xpm"
+    ////#include "../sample.xpm"
 #endif
 
 // ----------------------------------------------------------------------------
@@ -57,6 +57,24 @@ public:
     virtual bool OnInit();
 };
 
+class MyPanel: public wxPanel
+{
+public:
+    MyPanel(wxFrame *frame);
+    virtual ~MyPanel();
+
+    wxStaticText  *m_label;
+    wxTextCtrl    *m_text;
+    wxButton      *m_button;
+    wxButton      *m_button1;
+    wxButton      *m_button2;
+
+    void OnButton(wxCommandEvent& event);
+
+private:
+    DECLARE_EVENT_TABLE()
+};
+
 // Define a new frame type: this is going to be our main frame
 class MyFrame : public wxFrame
 {
@@ -69,6 +87,7 @@ public:
     void OnAbout(wxCommandEvent& event);
 
 private:
+    MyPanel *m_panel;
     // any class wishing to process wxWidgets events must use this macro
     DECLARE_EVENT_TABLE()
 };
@@ -86,8 +105,12 @@ enum
     // it is important for the id corresponding to the "About" command to have
     // this standard value as otherwise it won't be handled properly under Mac
     // (where it is special and put into the "Apple" menu)
-    Minimal_About = wxID_ABOUT
+    Minimal_About = wxID_ABOUT,
+
+    Minimal_Button = wxID_HIGHEST,
+    Minimal_Text,
 };
+
 
 // ----------------------------------------------------------------------------
 // event tables and other macros for wxWidgets
@@ -99,6 +122,12 @@ enum
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_MENU(Minimal_Quit,  MyFrame::OnQuit)
     EVT_MENU(Minimal_About, MyFrame::OnAbout)
+    EVT_BUTTON(Minimal_Quit,  MyFrame::OnQuit)
+    EVT_BUTTON(Minimal_About, MyFrame::OnAbout)
+END_EVENT_TABLE()
+
+BEGIN_EVENT_TABLE(MyPanel, wxPanel)
+    EVT_BUTTON(Minimal_Button,  MyPanel::OnButton)
 END_EVENT_TABLE()
 
 // Create a new application object: this macro will allow wxWidgets to create
@@ -146,7 +175,7 @@ MyFrame::MyFrame(const wxString& title)
        : wxFrame(NULL, wxID_ANY, title)
 {
     // set the frame icon
-    SetIcon(wxICON(sample));
+    ////SetIcon(wxICON(sample));
 
 #if wxUSE_MENUS
     // create a menu bar
@@ -173,11 +202,33 @@ MyFrame::MyFrame(const wxString& title)
     SetStatusText("Welcome to wxWidgets!");
 #endif // wxUSE_STATUSBAR
 
-    // Show wxWidgets information:
-    wxInfoMessageBox(this);
-
+    m_panel = new MyPanel(this);
+    SetSize(wxGetDisplaySize());
 }
 
+
+MyPanel::MyPanel( wxFrame *frame )
+       : wxPanel( frame, wxID_ANY )
+{
+    wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+    m_label = new wxStaticText(this, wxID_ANY, "Label:");
+    m_text = new wxTextCtrl(this, Minimal_Text, "text", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+    m_button = new wxButton(this, Minimal_Button, "&Platform");
+    m_button1 = new wxButton(this, Minimal_About, "&About");
+    m_button2 = new wxButton(this, Minimal_Quit, "&Quit");
+
+    sizer->Add(m_label, wxSizerFlags().Expand().Border());
+    sizer->AddSpacer(5);
+    sizer->Add(m_text, wxSizerFlags().Expand().Border());
+    sizer->AddSpacer(5);
+    sizer->Add(m_button, wxSizerFlags().Expand().Border());
+    sizer->AddSpacer(5);
+    sizer->Add(m_button1, wxSizerFlags().Expand().Border());
+    sizer->AddSpacer(5);
+    sizer->Add(m_button2, wxSizerFlags().Expand().Border());
+    sizer->Layout();
+    SetSizerAndFit(sizer);
+}
 
 // event handlers
 
@@ -202,3 +253,14 @@ void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
                  wxOK | wxICON_INFORMATION,
                  this);
 }
+
+void MyPanel::OnButton(wxCommandEvent& WXUNUSED(event))
+{
+    // Show wxWidgets information:
+    wxInfoMessageBox(this);
+}
+
+MyPanel::~MyPanel()
+{
+}
+
