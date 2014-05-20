@@ -3056,19 +3056,19 @@ public:
     // Set the display mode of visual flags for wrapped lines.
     void SetWrapVisualFlags(int wrapVisualFlags);
 
-    // Retrieve the display mode of visual flags for wrapped lines.
+    // Retrive the display mode of visual flags for wrapped lines.
     int GetWrapVisualFlags() const;
 
     // Set the location of visual flags for wrapped lines.
     void SetWrapVisualFlagsLocation(int wrapVisualFlagsLocation);
 
-    // Retrieve the location of visual flags for wrapped lines.
+    // Retrive the location of visual flags for wrapped lines.
     int GetWrapVisualFlagsLocation() const;
 
     // Set the start indent for wrapped lines.
     void SetWrapStartIndent(int indent);
 
-    // Retrieve the start indent for wrapped lines.
+    // Retrive the start indent for wrapped lines.
     int GetWrapStartIndent() const;
 
     // Sets how wrapped sublines are placed. Default is fixed.
@@ -3464,7 +3464,7 @@ public:
     // Delete forwards from the current position to the end of the line.
     void DelLineRight();
 
-    // Get and Set the xOffset (ie, horizontal scroll position).
+    // Get and Set the xOffset (ie, horizonal scroll position).
     void SetXOffset(int newOffset);
     int GetXOffset() const;
 
@@ -4485,36 +4485,36 @@ typedef void (wxEvtHandler::*wxStyledTextEventFunction)(wxStyledTextEvent&);
 #define wxStyledTextEventHandler( func ) \
     wxEVENT_HANDLER_CAST( wxStyledTextEventFunction, func )
 
-#define EVT_STC_CHANGE(id, fn)             DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_CHANGE,                id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_STYLENEEDED(id, fn)        DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_STYLENEEDED,           id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_CHARADDED(id, fn)          DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_CHARADDED,             id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_SAVEPOINTREACHED(id, fn)   DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_SAVEPOINTREACHED,      id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_SAVEPOINTLEFT(id, fn)      DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_SAVEPOINTLEFT,         id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_ROMODIFYATTEMPT(id, fn)    DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_ROMODIFYATTEMPT,       id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_KEY(id, fn)                DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_KEY,                   id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_DOUBLECLICK(id, fn)        DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_DOUBLECLICK,           id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_UPDATEUI(id, fn)           DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_UPDATEUI,              id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_MODIFIED(id, fn)           DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_MODIFIED,              id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_MACRORECORD(id, fn)        DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_MACRORECORD,           id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_MARGINCLICK(id, fn)        DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_MARGINCLICK,           id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_NEEDSHOWN(id, fn)          DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_NEEDSHOWN,             id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_PAINTED(id, fn)            DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_PAINTED,               id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_USERLISTSELECTION(id, fn)  DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_USERLISTSELECTION,     id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_URIDROPPED(id, fn)         DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_URIDROPPED,            id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_DWELLSTART(id, fn)         DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_DWELLSTART,            id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_DWELLEND(id, fn)           DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_DWELLEND,              id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_START_DRAG(id, fn)         DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_START_DRAG,            id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_DRAG_OVER(id, fn)          DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_DRAG_OVER,             id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_DO_DROP(id, fn)            DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_DO_DROP,               id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_ZOOM(id, fn)               DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_ZOOM,                  id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_HOTSPOT_CLICK(id, fn)      DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_HOTSPOT_CLICK,         id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_HOTSPOT_DCLICK(id, fn)     DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_HOTSPOT_DCLICK,        id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_CALLTIP_CLICK(id, fn)      DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_CALLTIP_CLICK,         id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_AUTOCOMP_SELECTION(id, fn) DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_AUTOCOMP_SELECTION,    id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_INDICATOR_CLICK(id, fn)    DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_INDICATOR_CLICK,       id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_INDICATOR_RELEASE(id, fn)  DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_INDICATOR_RELEASE,     id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_AUTOCOMP_CANCELLED(id, fn)    DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_AUTOCOMP_CANCELLED,    id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
-#define EVT_STC_AUTOCOMP_CHAR_DELETED(id, fn) DECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_AUTOCOMP_CHAR_DELETED, id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_CHANGE(id, fn)             wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_CHANGE,                id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_STYLENEEDED(id, fn)        wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_STYLENEEDED,           id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_CHARADDED(id, fn)          wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_CHARADDED,             id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_SAVEPOINTREACHED(id, fn)   wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_SAVEPOINTREACHED,      id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_SAVEPOINTLEFT(id, fn)      wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_SAVEPOINTLEFT,         id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_ROMODIFYATTEMPT(id, fn)    wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_ROMODIFYATTEMPT,       id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_KEY(id, fn)                wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_KEY,                   id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_DOUBLECLICK(id, fn)        wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_DOUBLECLICK,           id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_UPDATEUI(id, fn)           wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_UPDATEUI,              id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_MODIFIED(id, fn)           wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_MODIFIED,              id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_MACRORECORD(id, fn)        wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_MACRORECORD,           id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_MARGINCLICK(id, fn)        wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_MARGINCLICK,           id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_NEEDSHOWN(id, fn)          wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_NEEDSHOWN,             id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_PAINTED(id, fn)            wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_PAINTED,               id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_USERLISTSELECTION(id, fn)  wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_USERLISTSELECTION,     id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_URIDROPPED(id, fn)         wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_URIDROPPED,            id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_DWELLSTART(id, fn)         wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_DWELLSTART,            id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_DWELLEND(id, fn)           wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_DWELLEND,              id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_START_DRAG(id, fn)         wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_START_DRAG,            id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_DRAG_OVER(id, fn)          wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_DRAG_OVER,             id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_DO_DROP(id, fn)            wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_DO_DROP,               id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_ZOOM(id, fn)               wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_ZOOM,                  id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_HOTSPOT_CLICK(id, fn)      wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_HOTSPOT_CLICK,         id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_HOTSPOT_DCLICK(id, fn)     wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_HOTSPOT_DCLICK,        id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_CALLTIP_CLICK(id, fn)      wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_CALLTIP_CLICK,         id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_AUTOCOMP_SELECTION(id, fn) wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_AUTOCOMP_SELECTION,    id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_INDICATOR_CLICK(id, fn)    wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_INDICATOR_CLICK,       id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_INDICATOR_RELEASE(id, fn)  wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_INDICATOR_RELEASE,     id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_AUTOCOMP_CANCELLED(id, fn)    wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_AUTOCOMP_CANCELLED,    id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
+#define EVT_STC_AUTOCOMP_CHAR_DELETED(id, fn) wxDECLARE_EVENT_TABLE_ENTRY( wxEVT_STC_AUTOCOMP_CHAR_DELETED, id, wxID_ANY, wxStyledTextEventHandler( fn ), (wxObject *) NULL ),
 
 #endif
 
