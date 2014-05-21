@@ -923,6 +923,7 @@ CPPUNIT_LIBS
 CPPUNIT_CFLAGS
 HOST_SUFFIX
 HEADER_PAD_OPTION
+SAMPLES_CXXFLAGS
 SAMPLES_RPATH_FLAG
 DYLIB_RPATH_POSTLINK
 DYLIB_RPATH_INSTALL
@@ -3831,6 +3832,7 @@ DEFAULT_DEFAULT_wxUSE_DFB=0
 DEFAULT_DEFAULT_wxUSE_QT=0
 
 PROGRAM_EXT=
+SAMPLES_CXXFLAGS=
 SAMPLES_RPATH_FLAG=
 DYLIB_RPATH_INSTALL=
 DYLIB_RPATH_POSTLINK=
@@ -25981,6 +25983,10 @@ $as_echo "$wx_cv_spbcdata" >&6; }
         TOOLKIT_INCLUDE="${TOOLKIT_INCLUDE} `pkg-config Qt5Core Qt5Widgets Qt5Gui Qt5Test --cflags` -DQT_WIDGETS_LIB"
         LIBS="$LIBS `pkg-config Qt5Gui Qt5Test --libs`"
         GUI_TK_LIBRARY="${GUI_TK_LIBRARY} `pkg-config Qt5Core Qt5Widgets Qt5Gui Qt5Test --libs`"
+        if `pkg-config --variable qt_config Qt5Core | grep "reduce_relocations" >/dev/null`; then
+                        SAMPLES_CXXFLAGS="$SAMPLES_CXXFLAGS -fPIC"
+            WXCONFIG_CXXFLAGS="$WXCONFIG_CXXFLAGS -fPIC"
+        fi
     fi
 
         if test "$TOOLKIT" = "PM" ; then
@@ -34825,6 +34831,7 @@ fi
 
 
 TOOLKIT_LOWERCASE=`echo $TOOLKIT | tr '[A-Z]' '[a-z]'`
+
 
 
 
