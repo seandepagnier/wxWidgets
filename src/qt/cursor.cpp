@@ -43,6 +43,30 @@ wxCursor::wxCursor( const wxCursor &cursor )
     m_qtCursor = cursor.m_qtCursor;
 }
 
+#if wxUSE_IMAGE
+wxCursor::wxCursor(const wxString& cursor_file,
+                   wxBitmapType type,
+                   int hotSpotX, int hotSpotY)
+{
+    wxImage img;
+    if (!img.LoadFile(cursor_file, type))
+        return;
+
+    // eventually set the hotspot:
+    if (!img.HasOption(wxIMAGE_OPTION_CUR_HOTSPOT_X))
+        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, hotSpotX);
+    if (!img.HasOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y))
+        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, hotSpotY);
+
+    InitFromImage(img);
+}
+
+wxCursor::wxCursor(const wxImage& img)
+{
+    InitFromImage(img);
+}
+#endif
+
 void wxCursor::InitFromStock( wxStockCursor cursorId )
 {
     Qt::CursorShape qt_cur;
