@@ -37,31 +37,14 @@ wxMemoryDCImpl::wxMemoryDCImpl( wxMemoryDC *owner, wxDC *WXUNUSED(dc) )
 
 wxMemoryDCImpl::~wxMemoryDCImpl()
 {
-    // dont deselect the bitmap here as it can be already deleted
-//    DoSelect( wxNullBitmap );     // TODO FIX (move to wxBitmap?)
+    Flush();
 }
 
 void wxMemoryDCImpl::DoSelect( const wxBitmap& bitmap )
 {
+    Flush();
+
     m_selected = bitmap;
-    if ( IsOk() )
-    {
-        // Copy image to bitmap
-        m_qtPainter->end();
-
-        m_qtPainter->begin( m_pixmap );
-        m_qtPainter->drawImage( QPoint( 0, 0 ), *m_qtImage );
-        m_qtPainter->end();
-
-        m_ok = false;
-        m_pixmap = NULL;
-    }
-
-    if ( m_qtImage )
-    {
-        delete m_qtImage;
-        m_qtImage = NULL;
-    }
 
     if ( bitmap.IsOk() && !bitmap.GetHandle()->isNull() ) {
         m_pixmap = bitmap.GetHandle();
@@ -80,4 +63,26 @@ const wxBitmap& wxMemoryDCImpl::GetSelectedBitmap() const
 wxBitmap& wxMemoryDCImpl::GetSelectedBitmap()
 {
     return m_selected;
+}
+
+void wxMemoryDCImpl::Flush()
+{
+    if ( IsOk() )
+    {
+        // Copy image to bitmap
+        m_qtPainter->end();
+
+        m_qtPainter->begin( m_pixmap );
+        m_qtPainter->drawImage( QPoint( 0, 0 ), *m_qtImage );
+        m_qtPainter->end();
+
+        m_ok = false;
+        m_pixmap = NULL;
+    }
+
+    if ( m_qtImage )
+    {
+        delete m_qtImage;
+        m_qtImage = NULL;
+    }
 }

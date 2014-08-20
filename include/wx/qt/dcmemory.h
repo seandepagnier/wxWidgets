@@ -26,6 +26,8 @@ public:
 protected:
 
 private:
+    void Flush();
+
     QPixmap *m_pixmap;
     wxBitmap m_selected;
 };
