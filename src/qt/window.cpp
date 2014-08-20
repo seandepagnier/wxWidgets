@@ -227,7 +227,11 @@ bool wxWindow::Create( wxWindow * parent, wxWindowID id, const wxPoint & pos,
 
     parent->AddChild( this );
 
-    DoMoveWindow( pos.x, pos.y, size.GetWidth(), size.GetHeight() );
+    wxPoint p;
+    if(pos != wxDefaultPosition)
+        p = pos;
+
+    DoMoveWindow( p.x, p.y, size.GetWidth(), size.GetHeight() );
 
     PostCreation();
 
@@ -803,6 +807,14 @@ void wxWindow::DoSetSize(int x, int y, int width, int height, int sizeFlags )
         if ( height == wxDefaultCoord && ( sizeFlags & wxSIZE_AUTO_HEIGHT ))
             height = BEST_SIZE.y;
     }
+
+    int w, h;
+    GetSize(&w, &h);
+    if (width == -1)
+        width = w;
+    if (height == -1)
+        height = h;
+
     DoMoveWindow( x, y, width, height );
 }
 
