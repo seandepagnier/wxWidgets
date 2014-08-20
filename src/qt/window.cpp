@@ -777,8 +777,8 @@ void wxWindow::DoGetSize(int *width, int *height) const
     wxASSERT( size.width() == rect.width() );
     wxASSERT( size.height() == rect.height() );
 
-    *width = rect.width();
-    *height = rect.height();
+    if (width)  *width = rect.width();
+    if (height) *height = rect.height();
 }
 
     
@@ -810,8 +810,8 @@ void wxWindow::DoSetSize(int x, int y, int width, int height, int sizeFlags )
 void wxWindow::DoGetClientSize(int *width, int *height) const
 {
     QRect geometry = GetHandle()->geometry();
-    *width = geometry.width();
-    *height = geometry.height();
+    if (width)  *width = geometry.width();
+    if (height) *height = geometry.height();
 }
 
     
