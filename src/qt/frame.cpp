@@ -83,10 +83,15 @@ void wxFrame::SetMenuBar( wxMenuBar *menuBar )
 
 void wxFrame::SetStatusBar( wxStatusBar *statusBar )
 {
-    m_qtMainWindow->setStatusBar( statusBar->GetHandle() );
+    if (statusBar)
+    {
+        m_qtMainWindow->setStatusBar( statusBar->GetHandle() );
 
-    // Update statusbar sizes now that it has a size
-    statusBar->Refresh();
+        // Update statusbar sizes now that it has a size
+        statusBar->Refresh();
+    }
+    else
+        m_qtMainWindow->setStatusBar( NULL );
 
     wxFrameBase::SetStatusBar( statusBar );
 }
@@ -166,6 +171,20 @@ QMainWindow *wxFrame::GetHandle() const
 QScrollArea *wxFrame::QtGetScrollBarsContainer() const
 {
     return dynamic_cast <QScrollArea *> (m_qtMainWindow->centralWidget() );
+}
+
+void wxFrame::DoGetClientSize(int *width, int *height) const
+{
+    wxWindow::DoGetClientSize(width, height);
+
+    // for a status bar, we must subtract it's height here
+    wxStatusBar *sb = GetStatusBar();
+    if (height && sb)
+    {
+        int sbh = 0;
+        sb->GetSize(NULL, &sbh);
+        *height -= sbh;
+    }
 }
 
 //=============================================================================

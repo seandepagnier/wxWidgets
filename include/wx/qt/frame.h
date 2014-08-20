@@ -49,6 +49,9 @@ public:
 
     virtual QScrollArea *QtGetScrollBarsContainer() const;
 
+protected:
+    virtual void DoGetClientSize(int *width, int *height) const;
+
 private:
     QMainWindow *m_qtMainWindow;
 
