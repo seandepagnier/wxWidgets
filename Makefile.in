@@ -5353,6 +5353,7 @@ COND_TOOLKIT_QT___LOWLEVEL_SRC_OBJECTS =  \
 	monodll_qt_fontdlg.o \
 	monodll_qt_fontutil.o \
 	monodll_qt_fontenum.o \
+	monodll_sockqt.o \
 	monodll_fontpickerg.o \
 	monodll_qt_frame.o \
 	monodll_qt_gauge.o \
@@ -6303,6 +6304,7 @@ COND_TOOLKIT_QT___LOWLEVEL_SRC_OBJECTS_1 =  \
 	monodll_qt_fontdlg.o \
 	monodll_qt_fontutil.o \
 	monodll_qt_fontenum.o \
+	monodll_sockqt.o \
 	monodll_fontpickerg.o \
 	monodll_qt_frame.o \
 	monodll_qt_gauge.o \
@@ -7698,6 +7700,7 @@ COND_TOOLKIT_QT___LOWLEVEL_SRC_OBJECTS_2 =  \
 	monolib_qt_fontdlg.o \
 	monolib_qt_fontutil.o \
 	monolib_qt_fontenum.o \
+	monolib_sockqt.o \
 	monolib_fontpickerg.o \
 	monolib_qt_frame.o \
 	monolib_qt_gauge.o \
@@ -8648,6 +8651,7 @@ COND_TOOLKIT_QT___LOWLEVEL_SRC_OBJECTS_3 =  \
 	monolib_qt_fontdlg.o \
 	monolib_qt_fontutil.o \
 	monolib_qt_fontenum.o \
+	monolib_sockqt.o \
 	monolib_fontpickerg.o \
 	monolib_qt_frame.o \
 	monolib_qt_gauge.o \
@@ -10201,6 +10205,7 @@ COND_TOOLKIT_QT___LOWLEVEL_SRC_OBJECTS_4 =  \
 	coredll_qt_fontdlg.o \
 	coredll_qt_fontutil.o \
 	coredll_qt_fontenum.o \
+	coredll_sockqt.o \
 	coredll_fontpickerg.o \
 	coredll_qt_frame.o \
 	coredll_qt_gauge.o \
@@ -11151,6 +11156,7 @@ COND_TOOLKIT_QT___LOWLEVEL_SRC_OBJECTS_5 =  \
 	coredll_qt_fontdlg.o \
 	coredll_qt_fontutil.o \
 	coredll_qt_fontenum.o \
+	coredll_sockqt.o \
 	coredll_fontpickerg.o \
 	coredll_qt_frame.o \
 	coredll_qt_gauge.o \
@@ -11968,6 +11974,7 @@ COND_TOOLKIT_QT___LOWLEVEL_SRC_OBJECTS_6 =  \
 	corelib_qt_fontdlg.o \
 	corelib_qt_fontutil.o \
 	corelib_qt_fontenum.o \
+	corelib_sockqt.o \
 	corelib_fontpickerg.o \
 	corelib_qt_frame.o \
 	corelib_qt_gauge.o \
@@ -12918,6 +12925,7 @@ COND_TOOLKIT_QT___LOWLEVEL_SRC_OBJECTS_7 =  \
 	corelib_qt_fontdlg.o \
 	corelib_qt_fontutil.o \
 	corelib_qt_fontenum.o \
+	corelib_sockqt.o \
 	corelib_fontpickerg.o \
 	corelib_qt_frame.o \
 	corelib_qt_gauge.o \
@@ -20653,6 +20661,9 @@ monodll_sound_sdl.o: $(srcdir)/src/unix/sound_sdl.cpp $(MONODLL_ODEP)
 @COND_TOOLKIT_QT_USE_GUI_1@monodll_qt_fontenum.o: $(srcdir)/src/qt/fontenum.cpp $(MONODLL_ODEP)
 @COND_TOOLKIT_QT_USE_GUI_1@	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/qt/fontenum.cpp
 
+@COND_TOOLKIT_QT_USE_GUI_1@monodll_sockqt.o: $(srcdir)/src/qt/sockqt.cpp $(MONODLL_ODEP)
+@COND_TOOLKIT_QT_USE_GUI_1@	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/qt/sockqt.cpp
+
 @COND_TOOLKIT_GTK_TOOLKIT_VERSION__USE_GUI_1_WXUNIV_0@monodll_fontpickerg.o: $(srcdir)/src/generic/fontpickerg.cpp $(MONODLL_ODEP)
 @COND_TOOLKIT_GTK_TOOLKIT_VERSION__USE_GUI_1_WXUNIV_0@	$(CXXC) -c -o $@ $(MONODLL_CXXFLAGS) $(srcdir)/src/generic/fontpickerg.cpp
 
@@ -26517,6 +26528,9 @@ monolib_sound_sdl.o: $(srcdir)/src/unix/sound_sdl.cpp $(MONOLIB_ODEP)
 
 @COND_TOOLKIT_QT_USE_GUI_1@monolib_qt_fontenum.o: $(srcdir)/src/qt/fontenum.cpp $(MONOLIB_ODEP)
 @COND_TOOLKIT_QT_USE_GUI_1@	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/qt/fontenum.cpp
+
+@COND_TOOLKIT_QT_USE_GUI_1@monolib_sockqt.o: $(srcdir)/src/qt/sockqt.cpp $(MONOLIB_ODEP)
+@COND_TOOLKIT_QT_USE_GUI_1@	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/qt/sockqt.cpp
 
 @COND_TOOLKIT_GTK_TOOLKIT_VERSION__USE_GUI_1_WXUNIV_0@monolib_fontpickerg.o: $(srcdir)/src/generic/fontpickerg.cpp $(MONOLIB_ODEP)
 @COND_TOOLKIT_GTK_TOOLKIT_VERSION__USE_GUI_1_WXUNIV_0@	$(CXXC) -c -o $@ $(MONOLIB_CXXFLAGS) $(srcdir)/src/generic/fontpickerg.cpp
@@ -32497,6 +32511,9 @@ coredll_win32.o: $(srcdir)/src/univ/themes/win32.cpp $(COREDLL_ODEP)
 @COND_TOOLKIT_QT_USE_GUI_1@coredll_qt_fontenum.o: $(srcdir)/src/qt/fontenum.cpp $(COREDLL_ODEP)
 @COND_TOOLKIT_QT_USE_GUI_1@	$(CXXC) -c -o $@ $(COREDLL_CXXFLAGS) $(srcdir)/src/qt/fontenum.cpp
 
+@COND_TOOLKIT_QT_USE_GUI_1@coredll_sockqt.o: $(srcdir)/src/qt/sockqt.cpp $(COREDLL_ODEP)
+@COND_TOOLKIT_QT_USE_GUI_1@	$(CXXC) -c -o $@ $(COREDLL_CXXFLAGS) $(srcdir)/src/qt/sockqt.cpp
+
 @COND_TOOLKIT_GTK_TOOLKIT_VERSION__USE_GUI_1_WXUNIV_0@coredll_fontpickerg.o: $(srcdir)/src/generic/fontpickerg.cpp $(COREDLL_ODEP)
 @COND_TOOLKIT_GTK_TOOLKIT_VERSION__USE_GUI_1_WXUNIV_0@	$(CXXC) -c -o $@ $(COREDLL_CXXFLAGS) $(srcdir)/src/generic/fontpickerg.cpp
 
@@ -36876,6 +36893,9 @@ corelib_win32.o: $(srcdir)/src/univ/themes/win32.cpp $(CORELIB_ODEP)
 
 @COND_TOOLKIT_QT_USE_GUI_1@corelib_qt_fontenum.o: $(srcdir)/src/qt/fontenum.cpp $(CORELIB_ODEP)
 @COND_TOOLKIT_QT_USE_GUI_1@	$(CXXC) -c -o $@ $(CORELIB_CXXFLAGS) $(srcdir)/src/qt/fontenum.cpp
+
+@COND_TOOLKIT_QT_USE_GUI_1@corelib_sockqt.o: $(srcdir)/src/qt/sockqt.cpp $(CORELIB_ODEP)
+@COND_TOOLKIT_QT_USE_GUI_1@	$(CXXC) -c -o $@ $(CORELIB_CXXFLAGS) $(srcdir)/src/qt/sockqt.cpp
 
 @COND_TOOLKIT_GTK_TOOLKIT_VERSION__USE_GUI_1_WXUNIV_0@corelib_fontpickerg.o: $(srcdir)/src/generic/fontpickerg.cpp $(CORELIB_ODEP)
 @COND_TOOLKIT_GTK_TOOLKIT_VERSION__USE_GUI_1_WXUNIV_0@	$(CXXC) -c -o $@ $(CORELIB_CXXFLAGS) $(srcdir)/src/generic/fontpickerg.cpp

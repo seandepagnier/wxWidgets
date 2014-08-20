@@ -73,7 +73,7 @@ protected:
 public:
     virtual int WaitForChild(wxExecuteData& execData);
     virtual int AddProcessCallback(wxEndProcessData *data, int fd);
-    virtual wxFDIOManager *GetFDIOManager();
+
 protected:
     bool CheckForRedirectedIO(wxExecuteData& execData);
 

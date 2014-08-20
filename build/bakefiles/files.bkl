@@ -384,6 +384,7 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     src/qt/fontdlg.cpp
     src/qt/fontutil.cpp
     src/qt/fontenum.cpp
+    src/qt/sockqt.cpp
     src/generic/fontpickerg.cpp
     src/qt/frame.cpp
     src/qt/gauge.cpp
