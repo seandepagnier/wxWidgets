@@ -964,7 +964,7 @@ bool wxWindow::IsTransparentBackgroundSupported(wxString* WXUNUSED(reason)) cons
 bool wxWindow::SetTransparent(wxByte alpha)
 {
     // For Qt, range is between 1 (opaque) and 0 (transparent)
-    GetHandle()->setWindowOpacity(1 - alpha/255.0);
+    GetHandle()->setWindowOpacity(alpha/255.0);
     return true;
 }
 
