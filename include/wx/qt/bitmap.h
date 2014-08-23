@@ -67,7 +67,11 @@ public:
 
     void *GetRawData(wxPixelDataBase& data, int bpp);
     void UngetRawData(wxPixelDataBase& data);
-    
+
+    // these functions are internal and shouldn't be used, they risk to
+    // disappear in the future
+    bool HasAlpha() const;
+
     QPixmap *GetHandle() const;
 
 protected:
@@ -102,6 +106,8 @@ public:
     bool Create(const wxBitmap& bitmap, const wxColour& colour);
     bool Create(const wxBitmap& bitmap, int paletteIndex);
     bool Create(const wxBitmap& bitmap);
+
+    wxBitmap GetBitmap() const;
 
     // Implementation
     QBitmap *GetHandle() const;

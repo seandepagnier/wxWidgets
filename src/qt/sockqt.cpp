@@ -1,81 +1,97 @@
-/////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 // Name:        src/qt/sockqt.cpp
-// Author:      Sean D'Epagnier
-// Copyright:   (c) Sean D'Epagnier 2014
+// Purpose:     implementation of wxQT-specific socket event handling
+// Author:      Mariano Reingart
+// Copyright:   (c) 2014 wxWidgets dev team
 // Licence:     wxWindows licence
-/////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
-#if wxUSE_SOCKETS && defined(__UNIX__)
+#if wxUSE_SOCKETS
 
 #include "wx/apptrait.h"
+#include "wx/log.h"
 #include "wx/private/fdiomanager.h"
 
 #include <QtCore/QSocketNotifier>
 
-class wxQtFDIOHandler : public QSocketNotifier
+class wxQtFDIONotifier : public QSocketNotifier
 {
 public:
-    wxQtFDIOHandler(wxFDIOHandler *handler, int fd, Type type)
+    wxQtFDIONotifier(int fd, QSocketNotifier::Type type, wxFDIOHandler *handler)
         : QSocketNotifier(fd, type),
           m_handler(handler)
     {
         setEnabled(true);
-
-        connect(this, &wxQtFDIOHandler::activated, this,
-                type == QSocketNotifier::Read ?
-                &wxQtFDIOHandler::OnInput :
-                &wxQtFDIOHandler::OnOutput);
+        connect(this, &QSocketNotifier::activated, this, &wxQtFDIONotifier::activated);
     }
 
-    void OnInput()
+    wxFDIOHandler *handler()
     {
-        m_handler->OnReadWaiting();
+        return m_handler;
     }
 
-
-    void OnOutput()
+    void activated()
     {
-        m_handler->OnWriteWaiting();
+        switch (type())
+        {
+            case QSocketNotifier::Read:
+                m_handler->OnReadWaiting();
+                break;
+            case QSocketNotifier::Write:
+                m_handler->OnWriteWaiting();
+                break;
+            case QSocketNotifier::Exception:
+                //m_handler->OnExceptionWaiting();
+                break;
+        }
     }
-
-private:
     wxFDIOHandler *m_handler;
 };
-
-WX_DECLARE_HASH_MAP( int, wxUIntPtr, wxIntegerHash,
-                     wxIntegerEqual, wxQtFDIOHandlerHashMap );
 
 class QtFDIOManager : public wxFDIOManager
 {
 public:
-    virtual int AddInput(wxFDIOHandler *handler, int fd, Direction d) wxOVERRIDE
+    virtual int AddInput(wxFDIOHandler *handler, int fd, Direction d)
     {
-        wxQtFDIOHandlerHashMap &fds = (d == INPUT) ? m_fds_in : m_fds_out;
-
-        wxASSERT(fds.find(fd) == fds.end());
-
-        fds[fd] = (wxUIntPtr)new wxQtFDIOHandler(handler, fd,
-                                                 (d == INPUT) ? 
-                                                 QSocketNotifier::Read :
-                                                 QSocketNotifier::Write);
+        QSocketNotifier::Type type;
+        switch (d)
+        {
+            case INPUT:
+                type = QSocketNotifier::Read;
+                break;
+            case OUTPUT:
+                type = QSocketNotifier::Write;
+                break;
+        }
+        m_qtNotifiers.insert(m_qtNotifiers.end(),
+                             new wxQtFDIONotifier(fd, type, handler));
+        handler->SetRegisteredEvent(d);
         return fd;
     }
 
     virtual void
-    RemoveInput(wxFDIOHandler* WXUNUSED(handler), int fd, Direction d) wxOVERRIDE
+    RemoveInput(wxFDIOHandler* handler, int fd, Direction d)
     {
-        wxQtFDIOHandlerHashMap &fds = (d == INPUT) ? m_fds_in : m_fds_out;
-        wxQtFDIOHandlerHashMap::const_iterator it = fds.find(fd);
-
-        wxASSERT(it != fds.end());
-        delete (wxQtFDIOHandler*)it->second;
-        fds.erase(fd);
+        QSocketNotifier::Type type = d == INPUT ? QSocketNotifier::Read :
+                                                  QSocketNotifier::Write;
+        for ( wxVector<wxQtFDIONotifier*>::iterator it = m_qtNotifiers.begin();
+              it != m_qtNotifiers.end(); ++it )
+        {
+            wxQtFDIONotifier* notifier = static_cast<wxQtFDIONotifier*>(*it);
+            if ( (notifier->socket() == fd) &&
+                 (notifier->handler() == handler) &&
+                 (notifier->type() == type) )
+            {
+                delete notifier;
+                m_qtNotifiers.erase(it);
+                break;
+            }
+        }
     }
-
-    wxQtFDIOHandlerHashMap m_fds_in, m_fds_out;
+    wxVector<wxQtFDIONotifier*> m_qtNotifiers;
 };
 
 wxFDIOManager *wxGUIAppTraits::GetFDIOManager()

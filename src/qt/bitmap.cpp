@@ -443,6 +443,11 @@ wxGDIRefData *wxBitmap::CloneGDIRefData(const wxGDIRefData *data) const
     return new wxBitmapRefData(*(wxBitmapRefData *)data);
 }
 
+bool wxBitmap::HasAlpha() const
+{
+    return M_PIXDATA.hasAlphaChannel();
+}
+
 //-----------------------------------------------------------------------------
 // wxMask
 //-----------------------------------------------------------------------------
@@ -512,6 +517,11 @@ bool wxMask::Create(const wxBitmap& bitmap)
 
     m_qtBitmap = new QBitmap(*bitmap.GetHandle());
     return true;
+}
+
+wxBitmap wxMask::GetBitmap() const
+{
+    return wxBitmap(*m_qtBitmap);
 }
 
 QBitmap *wxMask::GetHandle() const

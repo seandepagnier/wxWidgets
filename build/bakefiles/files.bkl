@@ -307,6 +307,7 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     wx/qt/mdi.h
     wx/qt/menu.h
     wx/qt/menuitem.h
+    wx/qt/minifram.h
     wx/qt/msgdlg.h
     wx/qt/notebook.h
     wx/qt/palette.h
@@ -328,7 +329,6 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     wx/qt/statusbar.h
     wx/qt/stattext.h
     wx/qt/textctrl.h
-    wx/qt/textdlg.h
     wx/qt/textentry.h
     wx/qt/tglbtn.h
     wx/qt/timer.h
@@ -384,7 +384,6 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     src/qt/fontdlg.cpp
     src/qt/fontutil.cpp
     src/qt/fontenum.cpp
-    src/qt/sockqt.cpp
     src/generic/fontpickerg.cpp
     src/qt/frame.cpp
     src/qt/gauge.cpp
@@ -397,6 +396,7 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     src/qt/mdi.cpp
     src/qt/menu.cpp
     src/qt/menuitem.cpp
+    src/qt/minifram.cpp
     src/qt/msgdlg.cpp
     src/qt/notebook.cpp
     src/qt/palette.cpp
@@ -410,6 +410,7 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     src/qt/region.cpp
     src/qt/scrolbar.cpp
     src/qt/settings.cpp
+    src/qt/sockqt.cpp
     src/qt/slider.cpp
     src/qt/spinbutt.cpp
     src/qt/spinctrl.cpp
@@ -419,7 +420,6 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     src/qt/stattext.cpp
     src/qt/statusbar.cpp
     src/qt/textctrl.cpp
-    src/qt/textdlg.cpp
     src/qt/textentry.cpp
     src/generic/textmeasure.cpp
     src/qt/tglbtn.cpp
@@ -2326,7 +2326,6 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     src/osx/carbon/dcclient.cpp
     src/osx/carbon/dcprint.cpp
     src/osx/carbon/dcscreen.cpp
-    src/osx/core/glgrab.cpp
     src/osx/carbon/graphics.cpp
     src/osx/carbon/font.cpp
     src/osx/carbon/frame.cpp
@@ -3486,6 +3485,7 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     src/xrc/xh_scrol.cpp
     src/xrc/xh_scwin.cpp
     src/xrc/xh_htmllbox.cpp
+    src/xrc/xh_simplebook.cpp
     src/xrc/xh_sizer.cpp
     src/xrc/xh_slidr.cpp
     src/xrc/xh_spin.cpp
@@ -3554,6 +3554,7 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
     wx/xrc/xh_scrol.h
     wx/xrc/xh_scwin.h
     wx/xrc/xh_htmllbox.h
+    wx/xrc/xh_simplebook.h
     wx/xrc/xh_sizer.h
     wx/xrc/xh_slidr.h
     wx/xrc/xh_spin.h

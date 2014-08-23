@@ -71,13 +71,27 @@ wxQtEventLoopBase::~wxQtEventLoopBase()
 void wxQtEventLoopBase::ScheduleExit(int rc)
 {
     wxCHECK_RET( IsInsideRun(), wxT("can't call ScheduleExit() if not started") );
-    
+    m_shouldExit = true;
     QCoreApplication::exit( rc );
 }
 
 int wxQtEventLoopBase::DoRun()
 {
-    return QCoreApplication::exec();
+    int ret;
+
+    // This is placed inside of a loop to take into account nested event loops
+    while ( !m_shouldExit )
+    {
+        // This will print Qt warnins if app already started:
+        // "QCoreApplication::exec: The event loop is already running"
+        // TODO: check the loopLevel (nested) like in wxGTK
+        ret = QCoreApplication::exec();
+        // process pending events (if exec was started previously)
+        // TODO: use a real new QEventLoop() ?
+        QCoreApplication::processEvents();
+    }
+    OnExit();
+    return ret;
 }
 
 bool wxQtEventLoopBase::Pending() const
@@ -139,20 +153,41 @@ public:
 class wxQtEventLoopSource : public wxEventLoopSource
 {
 public:
+    wxQtSocketNotifier<&wxEventLoopSourceHandler::OnReadWaiting> * m_reader;
+    wxQtSocketNotifier<&wxEventLoopSourceHandler::OnWriteWaiting> * m_writer;
+    wxQtSocketNotifier<&wxEventLoopSourceHandler::OnExceptionWaiting> * m_exception;
+
     wxQtEventLoopSource(int fd, wxEventLoopSourceHandler *handler, int flags)
         : wxEventLoopSource(handler, fd)
     {
         if ( flags & wxEVENT_SOURCE_INPUT )
-            new wxQtSocketNotifier<&wxEventLoopSourceHandler::OnReadWaiting>
+            m_reader = new wxQtSocketNotifier<&wxEventLoopSourceHandler::OnReadWaiting>
                 (fd, QSocketNotifier::Read, handler);
+        else
+            m_reader = NULL;
 
         if ( flags & wxEVENT_SOURCE_OUTPUT )
-            new wxQtSocketNotifier<&wxEventLoopSourceHandler::OnWriteWaiting>
+            m_writer = new wxQtSocketNotifier<&wxEventLoopSourceHandler::OnWriteWaiting>
                 (fd, QSocketNotifier::Write, handler);
+        else
+            m_writer = NULL;
 
         if ( flags & wxEVENT_SOURCE_EXCEPTION )
-            new wxQtSocketNotifier<&wxEventLoopSourceHandler::OnExceptionWaiting>
+            m_exception = new wxQtSocketNotifier<&wxEventLoopSourceHandler::OnExceptionWaiting>
                 (fd, QSocketNotifier::Exception, handler);
+        else
+            m_exception = NULL;
+    }
+
+    virtual ~wxQtEventLoopSource()
+    {
+        // clean up notifiers
+        if (m_reader)
+            delete m_reader;
+        if (m_writer)
+            delete m_writer;
+        if (m_exception)
+            delete m_exception;
     }
 };
 
@@ -169,9 +204,21 @@ public:
 wxEventLoopSourcesManagerBase* wxGUIAppTraits::GetEventLoopSourcesManager()
 {
     static wxQtEventLoopSourcesManager s_eventLoopSourcesManager;
-
     return &s_eventLoopSourcesManager;
 }
+
+#if !wxUSE_CONSOLE_EVENTLOOP
+
+// Use the GUI event loop sources manager if console support is disabled
+// (needed by some common code, will raise an undefinied reference if not done)
+
+wxEventLoopSourcesManagerBase* wxAppTraits::GetEventLoopSourcesManager()
+{
+    static wxQtEventLoopSourcesManager s_eventLoopSourcesManager;
+    return &s_eventLoopSourcesManager;
+}
+
+#endif
 
 wxEventLoopSource *wxQtEventLoopBase::AddSourceForFD(int fd, wxEventLoopSourceHandler *handler, int flags)
 {

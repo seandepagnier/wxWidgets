@@ -34,7 +34,6 @@ class wxQtCentralWidget : public wxQtEventSignalHandler< QScrollArea, wxFrame >
 
 
 wxFrame::wxFrame()
-    : m_qtMainWindow(NULL)
 {
 }
 
@@ -47,18 +46,18 @@ wxFrame::wxFrame( wxWindow *parent, wxWindowID id, const wxString& title,
 wxFrame::~wxFrame()
 {
     // central widget should be deleted by qt when the main window is destroyed
-    QtStoreWindowPointer( m_qtMainWindow->centralWidget(), NULL );
+    QtStoreWindowPointer( GetHandle()->centralWidget(), NULL );
 }
 
 bool wxFrame::Create( wxWindow *parent, wxWindowID id, const wxString& title,
     const wxPoint& pos, const wxSize& size, long style, const wxString& name )
 {
-    m_qtWindow = m_qtMainWindow = new wxQtMainWindow( parent, this );
+    m_qtWindow = new wxQtMainWindow( parent, this );
 
     // TODO: Could we use a wxPanel as the central widget? If so then we could
     // remove wxWindow::QtReparent.
 
-    m_qtMainWindow->setCentralWidget( new wxQtCentralWidget( parent, this ) );
+    GetHandle()->setCentralWidget( new wxQtCentralWidget( parent, this ) );
 
     PostCreation();
 
@@ -69,30 +68,37 @@ void wxFrame::SetMenuBar( wxMenuBar *menuBar )
 {
     if ( menuBar )
     {
+        // The current menu bar could be deleted by Qt when dereferencing it so
+        // then that QMenuBar will raise a segmentation fault when using it again
+        wxCHECK_RET( menuBar->GetHandle(),
+                     "Using a replaced menu bar is not supported in wxQT");
         // Warning: Qt main window takes ownership of the QMenuBar pointer:
-        m_qtMainWindow->setMenuBar( menuBar->GetHandle() );
+        GetHandle()->setMenuBar( menuBar->GetHandle() );
     }
     else
     {
         // Creating an empty menu bar should hide it and free the previous:
-        QMenuBar *qmenubar = new QMenuBar(m_qtMainWindow);
-        m_qtMainWindow->setMenuBar( qmenubar );
+        QMenuBar *qmenubar = new QMenuBar(GetHandle());
+        GetHandle()->setMenuBar( qmenubar );
     }
     wxFrameBase::SetMenuBar( menuBar );
 }
 
 void wxFrame::SetStatusBar( wxStatusBar *statusBar )
 {
-    if (statusBar)
+    // The current status bar could be deleted by Qt when dereferencing it
+    // TODO: add a mechanism like Detach in menus to avoid issues
+    if ( statusBar != NULL )
     {
-        m_qtMainWindow->setStatusBar( statusBar->GetHandle() );
-
+        GetHandle()->setStatusBar( statusBar->GetHandle() );
         // Update statusbar sizes now that it has a size
         statusBar->Refresh();
     }
     else
-        m_qtMainWindow->setStatusBar( NULL );
-
+    {
+        // Remove the current status bar
+        GetHandle()->setStatusBar(NULL);
+    }
     wxFrameBase::SetStatusBar( statusBar );
 }
 
@@ -106,11 +112,11 @@ void wxFrame::SetToolBar(wxToolBar *toolbar)
         if (toolbar->HasFlag(wxTB_TOP))    area |= Qt::TopToolBarArea;
         if (toolbar->HasFlag(wxTB_BOTTOM)) area |= Qt::BottomToolBarArea;
 
-        m_qtMainWindow->addToolBar((Qt::ToolBarArea)area, toolbar->GetHandle());
+        GetHandle()->addToolBar((Qt::ToolBarArea)area, toolbar->GetHandle());
     }
     else if ( m_frameToolBar != NULL )
     {
-        m_qtMainWindow->removeToolBar(m_frameToolBar->GetHandle());
+        GetHandle()->removeToolBar(m_frameToolBar->GetHandle());
     }
     wxFrameBase::SetToolBar( toolbar );
 }
@@ -120,25 +126,23 @@ void wxFrame::SetWindowStyleFlag( long style )
     wxWindow::SetWindowStyleFlag( style );
 
     Qt::WindowFlags qtFlags = GetHandle()->windowFlags();
-//
-//    wxCHECK_RET( !HasFlag( wxFRAME_FLOAT_ON_PARENT ) && !HasFlag( wxTINY_CAPTION ) ,
-//                 "wxFRAME_FLOAT_ON_PARENT, wxTINY_CAPTION not supported. Use wxFRAME_TOOL_WINDOW instead." );
-//    wxCHECK_RET( !HasFlag( wxFRAME_TOOL_WINDOW ) || HasFlag( wxFRAME_NO_TASKBAR ) ,
-//                 "wxFRAME_TOOL_WINDOW without wxFRAME_NO_TASKBAR not supported." );
-//
-//    if ( HasFlag( wxFRAME_TOOL_WINDOW ) )
-//    {
-//        qtFlags &= ~Qt::WindowType_Mask;
-//        qtFlags = Qt::Tool;
-//    }
-//    else if ( HasFlag( wxFRAME_NO_TASKBAR ) )
-//    {
-//        qtFlags &= ~Qt::WindowType_Mask;
-//        qtFlags = Qt::Dialog;
-//    }
-//
-    
 
+    wxCHECK_RET( !HasFlag( wxFRAME_FLOAT_ON_PARENT ) && !HasFlag( wxTINY_CAPTION ) ,
+                 "wxFRAME_FLOAT_ON_PARENT, wxTINY_CAPTION not supported. Use wxFRAME_TOOL_WINDOW instead." );
+    wxCHECK_RET( !HasFlag( wxFRAME_TOOL_WINDOW ) || HasFlag( wxFRAME_NO_TASKBAR ) ,
+                 "wxFRAME_TOOL_WINDOW without wxFRAME_NO_TASKBAR not supported." );
+
+    if ( HasFlag( wxFRAME_TOOL_WINDOW ) )
+    {
+        qtFlags &= ~Qt::WindowType_Mask;
+        qtFlags |= Qt::Tool;
+    }
+    else if ( HasFlag( wxFRAME_NO_TASKBAR ) )
+    {
+        qtFlags &= ~Qt::WindowType_Mask;
+        qtFlags |= Qt::Dialog;
+    }
+    
     if ( ( (style & wxSIMPLE_BORDER) || (style & wxNO_BORDER) )
          != qtFlags.testFlag( Qt::FramelessWindowHint ) )
     {
@@ -162,15 +166,9 @@ void wxFrame::RemoveChild( wxWindowBase *child )
     wxFrameBase::RemoveChild( child );
 }
 
-
-QMainWindow *wxFrame::GetHandle() const
+QAbstractScrollArea *wxFrame::QtGetScrollBarsContainer() const
 {
-    return m_qtMainWindow;
-}
-
-QScrollArea *wxFrame::QtGetScrollBarsContainer() const
-{
-    return dynamic_cast <QScrollArea *> (m_qtMainWindow->centralWidget() );
+    return dynamic_cast <QAbstractScrollArea *> (GetHandle()->centralWidget() );
 }
 
 void wxFrame::DoGetClientSize(int *width, int *height) const
