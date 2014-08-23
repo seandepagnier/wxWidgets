@@ -53,13 +53,17 @@ bool wxQtSpinCtrlBase< T, Widget >::Create( wxWindow *parent, wxWindowID id,
 template< typename T, typename Widget >
 void wxQtSpinCtrlBase< T, Widget >::SetValue( T val )
 {
+    m_qtSpinBox->blockSignals(true);
     m_qtSpinBox->setValue( val );
+    m_qtSpinBox->blockSignals(false);
 }
 
 template< typename T, typename Widget >
 void wxQtSpinCtrlBase< T, Widget >::SetRange( T min, T max )
 {
+    m_qtSpinBox->blockSignals(true);
     m_qtSpinBox->setRange( min, max );
+    m_qtSpinBox->blockSignals(false);
 }
 
 template< typename T, typename Widget >
