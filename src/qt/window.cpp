@@ -281,9 +281,12 @@ void wxWindowQt::PostCreation(bool generic)
 
 void wxWindowQt::AddChild( wxWindowBase *child )
 {
-    // Make sure all children are children of the inner scroll area widget (if any):
+    // Make sure all children are children of the inner scroll area widget (if any),
+    // but not for opengl widgets
 
-    if ( QtGetScrollBarsContainer() )
+    if( (!child->IsKindOf(CLASSINFO(wxWindow)) ||
+         ((wxWindow*)child)->CanBeChildOfScrollBars()) &&
+        QtGetScrollBarsContainer() )
         QtReparent( child->GetHandle(), QtGetScrollBarsContainer()->viewport() );
 
     wxWindowBase::AddChild( child );

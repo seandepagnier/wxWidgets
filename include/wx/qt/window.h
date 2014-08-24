@@ -149,6 +149,7 @@ public:
 #endif // wxUSE_ACCEL
 
     virtual QAbstractScrollArea *QtGetScrollBarsContainer() const;
+    virtual bool CanBeChildOfScrollBars() { return true; }
 
 protected:
     virtual void DoGetTextExtent(const wxString& string,
